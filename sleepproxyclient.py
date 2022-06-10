@@ -53,8 +53,9 @@ TTL_long = 4500 # 75 min
 # should NOT be changed
 TTL_short = 120 # 2 min
 
-# debug flag
+# debug flag; NOTE: this will be overwritten by command line args processing
 DEBUG = False
+
 
 def debug(*args) :
     if (DEBUG) :
@@ -199,11 +200,14 @@ def sendUpdateForInterface(interface) :
 
         rcode = response.rcode()
         if rcode != dns.rcode.NOERROR:
-            print ("Unable to register with SleepProxy " + proxy['name'] + " (" + proxy['ip'] + ":" + proxy['port'] + ") - Errcode: " + rcode)
+            print ("Unable to register with SleepProxy " + str(proxy['name']) \
+                + " (" + str(proxy['ip']) + ":" + str(proxy['port']) \
+                + ") - Errcode: " + str(rcode))
             print (response)
 
-    except (DNSException, e):
-        print ("Unable to register with SleepProxy " + proxy['name'] + " (" + proxy['ip'] + ":" + proxy['port'] + ")")
+    except DNSException as e:
+        print ("Unable to register with SleepProxy " + str(proxy['name']) \
+             + " (" + str(proxy['ip']) + ":" + str(proxy['port']) + ")")
         print (e.__class__, e)
 
 
@@ -273,9 +277,10 @@ def discoverSleepProxyForInterface(interface) :
         debug("-discoverSleepProxyForInterface: available proxy: ", currProxy, " with properties: ", properties)
 
         # choose the server with lowest properties and prefer none 169.254.X.X addresses
-        if (minProperties == "" or minProperties > properties or (proxy and proxy['ip'].startswith('169.254.'))):
-            minProperties = properties
-            proxy = currProxy
+        if (minProperties == "" or minProperties > properties):
+            if (False == (currProxy['ip'].decode('utf8').startswith('169.254.'))):
+                minProperties = properties
+                proxy = currProxy
 
     # wait for cmd to terminate
     p.wait()

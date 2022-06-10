@@ -41,7 +41,7 @@ I've only installed this on Ubuntu and Xubuntu. Install manually, or via install
   * Clone the repository
 
 ```bash
-git clone https://github.com/jaromy/SleepProxyClient.git <whatever directory you want>
+git clone https://github.com/jaromy/SleepProxyClient.git .
 ```
 
 Manual:
@@ -49,7 +49,7 @@ Manual:
 
 ```bash
 mkdir -p /usr/share/sleepproxyclient/scripts
-sudo cp (sleepproxyclient.sh sleepproxyclient.py checkSleep.sh) /usr/share/sleepproxyclient/scripts
+sudo cp {sleepproxyclient.sh,sleepproxyclient.py,checkSleep.sh} /usr/share/sleepproxyclient/scripts
 sudo cp sleepproxyclient-systemd /lib/systemd/system-sleep/
 sudo cp debian/sleepproxyclient.default /etc/default/sleepproxyclient
 ```

@@ -44,6 +44,6 @@ fi
 SCRIPTDIR=`dirname $0`
 
 if [ "$SPC_DEBUG" != "" ] ; then
-	echo "calling: python $SCRIPTDIR/sleepproxyclient.py $IF_OPT $TTL_OPT $DEBUG_OPT"
+	echo "calling: python3 $SCRIPTDIR/sleepproxyclient.py $IF_OPT $TTL_OPT $DEBUG_OPT"
 fi
-python $SCRIPTDIR/sleepproxyclient.py $IF_OPT $TTL_OPT $DEBUG_OPT
+python3 $SCRIPTDIR/sleepproxyclient.py $IF_OPT $TTL_OPT $DEBUG_OPT

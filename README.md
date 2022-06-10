@@ -36,54 +36,26 @@ SleepProxyClient works out of the box on Debian/Ubuntu.
 It should be quite easy to install SPC on other Linux distributions and UNIX/BSD systems too.
 
 #### Linux
-On Debian/Ubuntu just install the deb-package available from the repository:
+I've only installed this on Ubuntu and Xubuntu. Install manually, or via install script `debian/install`. Either way, it's pretty easy:
 
-  * Get and add the public key for this repo:
-
-```
-echo '-----BEGIN PGP PUBLIC KEY BLOCK-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-mQINBFQB8swBEACxZT6StXBncZpc5mFyxIW8iGAFtcvBP+D3QD2cr6krFWTjYNdZ
-0a79dA1IypgGxUdLeBVTiSsHFV3FJm4i1WLO2cVTMCUyrH5ENTC1GYPVP7BnVmhM
-1ue2jWhkmSzSwbt6+VR2Bkix7mAiCqbkbxEkKT6BVeE9tC1UEJT4QxRUtNttgRc4
-LTtbIkIX74HDfAI87F/ByC5naS/PEf4ufr6V29tF1DLQ7GPslW7VGtCl9SWZ4Jeb
-GJV56BpHaIikJKT5+cgpEV1aFix/okqRVL8q2y98kVLHG9VYJJkuZV/sq45Hic5h
-+tc46MWSGeJlnJBqKS3gNJZ3K/XBCpuUiRjjjl92h0UJwh+Fy3hM0kn24jofcK58
-OgjsCtrR1K4qmFeZBGPq1/0opSgo6xNiqc5eu/2JX822UnNT82HoEhome3Dfvyl9
-p5o3/Fqyu1YhDYshPT8i5Ia3hxJUJog0V+caDydEqznhNHBKG6oO28g8Rpzhk/Os
-XDFsPCx/Dk50nFhXEWtVAd/OzVkoWLs+xPkrSQ7wDeKdNfY3Gx4ALWEwdvWQdxck
-yt3PiGVmun22TWYQWvc2AH/jLAm8C2EhhQ+5/AxVg5Ad1gLQiMjO2dC4ScOQfnAV
-rYG77iV5Qf19ncv4UyOfCBwNi4caungTCjmKuHwR5nP8wmC53JlhJJRH0wARAQAB
-tCxBbmRyZWFzIFdlaW5sZWluIDxhbmRyZWFzLmRldkB3ZWlubGVpbi5pbmZvPokC
-PgQTAQIAKAUCVAHyzAIbAwUJCWYBgAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AA
-CgkQC5m/qshiim9D8RAAhsX9shL9hTd/DC+NmzLdmW/JZqscqveAf7R07tE3ssqQ
-mJt8s/ekSDpZSFYYdicRxHYr+OnXUrGUvZWXC8+hx06ay+tP0620QZSapi90nNhg
-Zs0YLWgDx7vho8ZE+YkN7Hs9WXmkYL9mZvbtEP9qwi9dtfenb9N5e8HN5lHfdMFi
-rQT6vGEdZUVURUv70JnZ1BU+J9FxMRM/RdJAiblzFQ1VDpO7BBS47lJZ3f2tHIsh
-fbT4u7XFAPujki6Gu4EVbiU8Dau40d9Wk+YZ4z0OsHQm5IvTuNLl1c3A4ZE68iDd
-dgybbDnRjd8j+431d+t1oXRVCjKfiTsZbCAualsjVELYKCojliCOcoiRPEdi5L+6
-1lcn3crKU1fUEKq0z2xyHiNSwPkNscjBC1nOtejlGnUQUGPOOvhRzAVXMLPbFJaD
-hr1QEQ60S+bVK7EaWu/nwQqcn3sUXDpqamdYWRKLZBZK8D5JNsGt6QVCOVuE9ml1
-bjSzyxcpKfbvtnEcqz69yLR/Kn+lwcibWJ7EHoXndJ4JGttMCv9usxqb3EqnHT9j
-c5lKkRHAJM729vs9Vrfl0LdLcUhc7lPkeMZXYtZ0L/SmihWzltjUT3sFLlC9W9Cn
-Xk9evVBI5pglqBnLfBTbMTal7tZGIdl/ObxUxajP2T81dZ1E6OKSx/tswmqUALg=
-=lRed
------END PGP PUBLIC KEY BLOCK-----' | apt-key add -
-```
-
-  * Add the repository
+  * Clone the repository
 
 ```bash
-echo 'deb http://repo.weinlein.info unstable main' >>/etc/apt/sources.list
+git clone https://github.com/jaromy/SleepProxyClient.git <whatever directory you want>
 ```
 
-  * Update apt and install the package
+Manual:
+  * Copy files to appropriate directories:
 
 ```bash
-apt-get update
-apt-get install sleepproxyclient
+mkdir -p /usr/share/sleepproxyclient/scripts
+sudo cp (sleepproxyclient.sh sleepproxyclient.py checkSleep.sh) /usr/share/sleepproxyclient/scripts
+sudo cp sleepproxyclient-systemd /lib/systemd/system-sleep/
+sudo cp debian/sleepproxyclient.default /etc/default/sleepproxyclient
 ```
+
+You'll also need to set appropriate permissions
+
 
 #### Other operating systems
 

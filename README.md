@@ -22,7 +22,7 @@ Please report issues to make it even more stable.
 
 ### Requirements
 
- - python
+ - python 3
  - dnspython (http://www.dnspython.org)
  - and other usefull python modules
  - avahi-browse (to discover the sleep proxy and local services)
@@ -97,6 +97,7 @@ Just ensure the suspend-script (`sleepproxyclient.sh`) is called before suspendi
 #### Services
 
 All locally announced services will be discovered via avahi-browse. There is no manual configuration needed anymore.
+However, a filter has been added in `sleepproxyclient.py` to allow the filtering of specific services. Only these designated services will be registered with the Sleep Proxy Server. This is to circumvent the issue of the registration failing due to the maximum message length exceeding 512 bytes.
 
 #### Setup auto-sleep
 
@@ -124,14 +125,10 @@ These settings can be configured via <code>/etc/default/sleepproxyclient</code>
 - 00_sleepproxyclient    
 	This hook will be installed to <code>/etc/pm/sleep.d/</code> and called by pm-utils before going to sleep. This script will call sleepproxyclient.sh and is actually calling the sleepproxyclient scripts.
 
+- sleepproxyclient-systemd
+	This hook is for systemd compatible systems (e.g. recent Ubuntu). It should be installed into <code>/lib/systemd/system-sleep</code> and given appropriate executable privileges. This script will call sleepproxyclient.sh to handle the work. It will also restart the avahi daemon service upon wake-up.
+
 - checkSleep.sh   
  Is an example script to show how to actually suspend the host. It does some checks to determine if the host is currently in use or not. It will suspend the host after two successfully calls by <code>pm-suspend</code>. This script is designed to be periodically called by a cronjob.
 	To be able to do some more advanced checks take a look at other projects like https://github.com/OMV-Plugins/autoshutdown/. Just configure them to call <code>pm-suspend</code> instead of <code>shutdown</code> to activate your SleepProxyClient.
 
-
-## Support this project
-
-Support this project by contributing some code, creating issues or by clicking the flattr-button - Thanks!
-
-<a href="http://flattr.com/thing/713748/aweinSleepProxyClient-on-GitHub" target="_blank">
-<img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a>

@@ -1,7 +1,17 @@
 #!/bin/sh
+# $1 - pre or post (sleep or wake)
+# $2 - suspend, hibernate or hybrid-sleep
 
-case $1 in
-  pre)
+case $1/$2 in
+  pre/*)
+    # Going to sleep (hibernate, etc)
     bash /usr/share/sleepproxyclient/scripts/sleepproxyclient.sh
     ;;
+  post/*)
+    # Waking up
+    # Restart avahi to avoid getting multiple hostnames, e.g. media-server-2.local
+    service avahi-daemon restart
+    ;;
+# NOTE: $2 not used in code above; not sure if sleep proxy server is designed to work with hibernating
+#     or hybrid-sleep scenarios.
 esac

@@ -53,8 +53,19 @@ TTL_long = 4500 # 75 min
 # should NOT be changed
 TTL_short = 120 # 2 min
 
-# debug flag; NOTE: this will be overwritten by command line args processing
+# debug flag; NOTE: don't change here; this will be overwritten by command line args processing
 DEBUG = False
+
+# Only gather a subset of all services; DNS message length = 512 bytes max 
+# If too many services, then registration with sleep proxy server will fail.
+filterServices = [  '_plexmediasvr._tcp',
+                    '_smb._tcp',
+                    '_ssh._tcp',
+                    '_adisk._tcp' ]
+# NOTE: unable to wake via Remote app (owntone / iTunes), so commenting out associated protocols/services
+                    #'_daap._tcp',
+                    #'_dacp._tcp',
+                    #'_touch-able._tcp' ]
 
 
 def debug(*args) :
@@ -233,11 +244,13 @@ def discoverServices(ipArray) :
             #extract service details
             if (lineArr[7].decode() in ipArray) :
                 service = lineArr[4]
-                port = lineArr[8]
-                txtRecords = lineArr[9].replace(b'" "', b';').replace(b'\n', b'').replace(b'"', b'').rsplit(b';')
-                serviceEntry = [service, port] + txtRecords
-                if (serviceEntry not in services) : # check for duplicates due to IPv4/6 dual stack
-                    services.append(serviceEntry)
+                # Only gather a subset of all services, due to max DNS message length
+                if (service.decode() in filterServices) :
+                    port = lineArr[8]
+                    txtRecords = lineArr[9].replace(b'" "', b';').replace(b'\n', b'').replace(b'"', b'').rsplit(b';')
+                    serviceEntry = [service, port] + txtRecords
+                    if (serviceEntry not in services) : # check for duplicates due to IPv4/6 dual stack
+                        services.append(serviceEntry)
 
     # wait for cmd to terminate
     p.wait()
